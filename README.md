@@ -38,20 +38,22 @@ example, I'm beginning to realize that CDK "apps" don't share well.
 
 This library is intended to be used as part of a CDK Stack. For example...
 
-    import * as cdk from '@aws-cdk/core';
-    import {FoldingAtHome} from '@raykrueger/folding-on-ecs'
+````typescript
+import * as cdk from '@aws-cdk/core';
+import {FoldingAtHome} from '@raykrueger/folding-on-ecs'
 
-    export class FoldingOnEcsStack extends cdk.Stack {
-        constructor(scope: cdk.Construct, id: string, props?: cdk.StackProps) {
-            super(scope, id, props);
+export class FoldingOnEcsStack extends cdk.Stack {
+    constructor(scope: cdk.Construct, id: string, props?: cdk.StackProps) {
+        super(scope, id, props);
 
-            const cluster = new FoldingAtHome(this, 'FoldingAtHome');
-        }
+        const cluster = new FoldingAtHome(this, 'FoldingAtHome');
     }
+}
 
-    const app = new cdk.App();
-    new FoldingOnEcsStack(app, 'FoldingAtHomeStack');
-    app.synth();
+const app = new cdk.App();
+new FoldingOnEcsStack(app, 'FoldingAtHomeStack');
+app.synth();
+````
 
 ## Example App
 
@@ -72,13 +74,15 @@ and configure it using `aws configure`
 1. `$ npm install @raykrueger/folding-on-ecs`
 
 
-### Test
+### Run Tests
 
-    git clone https://github.com/raykrueger/FoldingOnECS.git
-    cd FoldingOnECS
-    npm install
-    npm run build
-    npm test
+````
+git clone https://github.com/raykrueger/folding-on-ecs.git
+cd folding-on-ecs
+npm install
+npm run build
+npm test
+````
 
 ### Costs
 
