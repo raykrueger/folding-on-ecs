@@ -1,15 +1,17 @@
 {
   "name": "@raykrueger/folding-on-ecs",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
+  "repository": {"url": "https://github.com/raykrueger/folding-on-ecs"},
+  "license": "Apache-2.0",
   "scripts": {
     "build": "tsc",
     "watch": "tsc -w",
     "test": "jest"
   },
   "devDependencies": {
-    "@aws-cdk/assert": "^1.31.0",
+    "@aws-cdk/assert": "^1.30.0",
     "@types/jest": "^24.0.22",
     "@types/node": "10.17.5",
     "jest": "^24.9.0",
@@ -17,12 +19,12 @@
     "typescript": "~3.7.2"
   },
   "peerDependencies": {
-    "@aws-cdk/core": "1.31.0"
+    "@aws-cdk/core": "1.30.0"
   },
   "dependencies": {
-    "@aws-cdk/aws-ec2": "^1.31.0",
-    "@aws-cdk/aws-ecs": "^1.31.0",
-    "@aws-cdk/aws-logs": "^1.31.0",
-    "@aws-cdk/core": "^1.31.0"
+    "@aws-cdk/aws-ec2": "^1.30.0",
+    "@aws-cdk/aws-ecs": "^1.30.0",
+    "@aws-cdk/aws-logs": "^1.30.0",
+    "@aws-cdk/core": "^1.30.0"
   }
 }

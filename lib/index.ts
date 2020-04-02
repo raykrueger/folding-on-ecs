@@ -60,7 +60,7 @@ export class FoldingAtHome extends Construct {
   public readonly containerDef: ecs.ContainerDefinition;
   public readonly service: ecs.Ec2Service;
 
-  constructor(scope: Construct, id: string, props: FoldingAtHomeProps={}) {
+  public constructor(scope: Construct, id: string, props: FoldingAtHomeProps={}) {
     super(scope, id);
 
     //File in the defaults
