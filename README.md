@@ -42,7 +42,7 @@ This library is intended to be used as part of a CDK Stack. For example...
 import * as cdk from '@aws-cdk/core';
 import {FoldingAtHome} from '@raykrueger/folding-on-ecs'
 
-export class FoldingOnEcsStack extends cdk.Stack {
+class FoldingOnEcsStack extends cdk.Stack {
     constructor(scope: cdk.Construct, id: string, props?: cdk.StackProps) {
         super(scope, id, props);
 
