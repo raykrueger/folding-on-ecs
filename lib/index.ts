@@ -70,7 +70,7 @@ export class FoldingAtHome extends Construct {
     props.image = props.image || ecs.ContainerImage.fromRegistry(FoldingAtHome.DEFAULT_IMAGE);
 
     //The real stuff. Define our ECS GPU Cluster
-    this.ecsCluster = new ecs.Cluster(this, 'FoldingCluster', {
+    this.ecsCluster = new ecs.Cluster(this, 'Cluster', {
       vpc: props.vpc,
       capacity: {
         instanceType: ec2.InstanceType.of(ec2.InstanceClass.G4DN, ec2.InstanceSize.XLARGE),
@@ -83,7 +83,7 @@ export class FoldingAtHome extends Construct {
     });
 
     //kind of obvious
-    this.taskDef = new ecs.TaskDefinition(this, 'FoldingAtHomeTask', {
+    this.taskDef = new ecs.TaskDefinition(this, 'Task', {
       compatibility: ecs.Compatibility.EC2
     });
 
@@ -99,7 +99,7 @@ export class FoldingAtHome extends Construct {
     });
 
     //Define our service as a daemon so we run the container on every node
-    this.service = new ecs.Ec2Service(this, 'FoldingService', {
+    this.service = new ecs.Ec2Service(this, 'Service', {
       cluster: this.ecsCluster,
       taskDefinition: this.taskDef,
       daemon: true
