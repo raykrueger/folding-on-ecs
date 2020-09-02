@@ -86,14 +86,13 @@ npm test
 
 ### Costs
 
-This runs three g4dn.xlarge instances as spot requests by default. The spot
+This runs a single g4dn.xlarge instance as a spot request by default. The spot
 request is for the base price of that instance in us-east-2, which is $0.52
 an hour. Adjust for your region, and budget as needed.
 
 In us-east-2 spot pricing, at the time of this writing, for g4dn.xlarge is
 around $0.16 on average. Which means a single g4dn.xlarge will cost about
-$117 a month. **The default configuration of three nodes will cost around $351
-a month.** There would be additional costs for CloudWatch logs and network
+**$117 a month**. There would be additional costs for CloudWatch logs and network
 egress as well. I have not yet calculated an estimate for that.
 
 To calculate the average spot price for the past 30 days in a region the following command will work on a mac.
