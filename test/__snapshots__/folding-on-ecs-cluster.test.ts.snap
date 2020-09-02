@@ -1,0 +1,736 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Snapshot 1`] = `
+Object {
+  "Parameters": Object {
+    "SsmParameterValueawsserviceecsoptimizedamiamazonlinux2gpurecommendedimageidC96584B6F00A464EAD1953AFF4B05118Parameter": Object {
+      "Default": "/aws/service/ecs/optimized-ami/amazon-linux-2/gpu/recommended/image_id",
+      "Type": "AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>",
+    },
+  },
+  "Resources": Object {
+    "FoldingAtHomeCluster207DC970": Object {
+      "Type": "AWS::ECS::Cluster",
+    },
+    "FoldingAtHomeClusterDefaultAutoScalingGroupASGFB0FCFDD": Object {
+      "Properties": Object {
+        "LaunchConfigurationName": Object {
+          "Ref": "FoldingAtHomeClusterDefaultAutoScalingGroupLaunchConfigA04858CB",
+        },
+        "MaxSize": "1",
+        "MinSize": "1",
+        "Tags": Array [
+          Object {
+            "Key": "Name",
+            "PropagateAtLaunch": true,
+            "Value": "Default/FoldingAtHome/Cluster/DefaultAutoScalingGroup",
+          },
+        ],
+        "VPCZoneIdentifier": Array [
+          Object {
+            "Ref": "FoldingAtHomeClusterVpcPrivateSubnet1SubnetF327BA6F",
+          },
+          Object {
+            "Ref": "FoldingAtHomeClusterVpcPrivateSubnet2Subnet3E05E323",
+          },
+        ],
+      },
+      "Type": "AWS::AutoScaling::AutoScalingGroup",
+      "UpdatePolicy": Object {
+        "AutoScalingReplacingUpdate": Object {
+          "WillReplace": true,
+        },
+        "AutoScalingScheduledAction": Object {
+          "IgnoreUnmodifiedGroupSizeProperties": true,
+        },
+      },
+    },
+    "FoldingAtHomeClusterDefaultAutoScalingGroupInstanceProfileB4E29D2B": Object {
+      "Properties": Object {
+        "Roles": Array [
+          Object {
+            "Ref": "FoldingAtHomeClusterDefaultAutoScalingGroupInstanceRole5FFF2213",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::InstanceProfile",
+    },
+    "FoldingAtHomeClusterDefaultAutoScalingGroupInstanceRole5FFF2213": Object {
+      "Properties": Object {
+        "AssumeRolePolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": Object {
+                "Service": Object {
+                  "Fn::Join": Array [
+                    "",
+                    Array [
+                      "ec2.",
+                      Object {
+                        "Ref": "AWS::URLSuffix",
+                      },
+                    ],
+                  ],
+                },
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "Tags": Array [
+          Object {
+            "Key": "Name",
+            "Value": "Default/FoldingAtHome/Cluster/DefaultAutoScalingGroup",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "FoldingAtHomeClusterDefaultAutoScalingGroupInstanceRoleDefaultPolicy48E36987": Object {
+      "Properties": Object {
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": Array [
+                "ecs:DeregisterContainerInstance",
+                "ecs:RegisterContainerInstance",
+                "ecs:Submit*",
+              ],
+              "Effect": "Allow",
+              "Resource": Object {
+                "Fn::GetAtt": Array [
+                  "FoldingAtHomeCluster207DC970",
+                  "Arn",
+                ],
+              },
+            },
+            Object {
+              "Action": Array [
+                "ecs:Poll",
+                "ecs:StartTelemetrySession",
+              ],
+              "Condition": Object {
+                "ArnEquals": Object {
+                  "ecs:cluster": Object {
+                    "Fn::GetAtt": Array [
+                      "FoldingAtHomeCluster207DC970",
+                      "Arn",
+                    ],
+                  },
+                },
+              },
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+            Object {
+              "Action": Array [
+                "ecs:DiscoverPollEndpoint",
+                "ecr:GetAuthorizationToken",
+                "logs:CreateLogStream",
+                "logs:PutLogEvents",
+              ],
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "FoldingAtHomeClusterDefaultAutoScalingGroupInstanceRoleDefaultPolicy48E36987",
+        "Roles": Array [
+          Object {
+            "Ref": "FoldingAtHomeClusterDefaultAutoScalingGroupInstanceRole5FFF2213",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "FoldingAtHomeClusterDefaultAutoScalingGroupInstanceSecurityGroupE160DA14": Object {
+      "Properties": Object {
+        "GroupDescription": "Default/FoldingAtHome/Cluster/DefaultAutoScalingGroup/InstanceSecurityGroup",
+        "SecurityGroupEgress": Array [
+          Object {
+            "CidrIp": "0.0.0.0/0",
+            "Description": "Allow all outbound traffic by default",
+            "IpProtocol": "-1",
+          },
+        ],
+        "Tags": Array [
+          Object {
+            "Key": "Name",
+            "Value": "Default/FoldingAtHome/Cluster/DefaultAutoScalingGroup",
+          },
+        ],
+        "VpcId": Object {
+          "Ref": "FoldingAtHomeClusterVpcE7283F0C",
+        },
+      },
+      "Type": "AWS::EC2::SecurityGroup",
+    },
+    "FoldingAtHomeClusterDefaultAutoScalingGroupLaunchConfigA04858CB": Object {
+      "DependsOn": Array [
+        "FoldingAtHomeClusterDefaultAutoScalingGroupInstanceRoleDefaultPolicy48E36987",
+        "FoldingAtHomeClusterDefaultAutoScalingGroupInstanceRole5FFF2213",
+      ],
+      "Properties": Object {
+        "IamInstanceProfile": Object {
+          "Ref": "FoldingAtHomeClusterDefaultAutoScalingGroupInstanceProfileB4E29D2B",
+        },
+        "ImageId": Object {
+          "Ref": "SsmParameterValueawsserviceecsoptimizedamiamazonlinux2gpurecommendedimageidC96584B6F00A464EAD1953AFF4B05118Parameter",
+        },
+        "InstanceType": "g4dn.xlarge",
+        "SecurityGroups": Array [
+          Object {
+            "Fn::GetAtt": Array [
+              "FoldingAtHomeClusterDefaultAutoScalingGroupInstanceSecurityGroupE160DA14",
+              "GroupId",
+            ],
+          },
+        ],
+        "SpotPrice": "0.52",
+        "UserData": Object {
+          "Fn::Base64": Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                "#!/bin/bash
+echo ECS_CLUSTER=",
+                Object {
+                  "Ref": "FoldingAtHomeCluster207DC970",
+                },
+                " >> /etc/ecs/ecs.config
+sudo iptables --insert FORWARD 1 --in-interface docker+ --destination 169.254.169.254/32 --jump DROP
+sudo service iptables save
+echo ECS_AWSVPC_BLOCK_IMDS=true >> /etc/ecs/ecs.config",
+              ],
+            ],
+          },
+        },
+      },
+      "Type": "AWS::AutoScaling::LaunchConfiguration",
+    },
+    "FoldingAtHomeClusterVpcE7283F0C": Object {
+      "Properties": Object {
+        "CidrBlock": "10.0.0.0/16",
+        "EnableDnsHostnames": true,
+        "EnableDnsSupport": true,
+        "InstanceTenancy": "default",
+        "Tags": Array [
+          Object {
+            "Key": "Name",
+            "Value": "Default/FoldingAtHome/Cluster/Vpc",
+          },
+        ],
+      },
+      "Type": "AWS::EC2::VPC",
+    },
+    "FoldingAtHomeClusterVpcIGWAB3113DB": Object {
+      "Properties": Object {
+        "Tags": Array [
+          Object {
+            "Key": "Name",
+            "Value": "Default/FoldingAtHome/Cluster/Vpc",
+          },
+        ],
+      },
+      "Type": "AWS::EC2::InternetGateway",
+    },
+    "FoldingAtHomeClusterVpcPrivateSubnet1DefaultRoute3C95C3BB": Object {
+      "Properties": Object {
+        "DestinationCidrBlock": "0.0.0.0/0",
+        "NatGatewayId": Object {
+          "Ref": "FoldingAtHomeClusterVpcPublicSubnet1NATGateway4D45814C",
+        },
+        "RouteTableId": Object {
+          "Ref": "FoldingAtHomeClusterVpcPrivateSubnet1RouteTable5F0D4F47",
+        },
+      },
+      "Type": "AWS::EC2::Route",
+    },
+    "FoldingAtHomeClusterVpcPrivateSubnet1RouteTable5F0D4F47": Object {
+      "Properties": Object {
+        "Tags": Array [
+          Object {
+            "Key": "Name",
+            "Value": "Default/FoldingAtHome/Cluster/Vpc/PrivateSubnet1",
+          },
+        ],
+        "VpcId": Object {
+          "Ref": "FoldingAtHomeClusterVpcE7283F0C",
+        },
+      },
+      "Type": "AWS::EC2::RouteTable",
+    },
+    "FoldingAtHomeClusterVpcPrivateSubnet1RouteTableAssociation9ACD9AE7": Object {
+      "Properties": Object {
+        "RouteTableId": Object {
+          "Ref": "FoldingAtHomeClusterVpcPrivateSubnet1RouteTable5F0D4F47",
+        },
+        "SubnetId": Object {
+          "Ref": "FoldingAtHomeClusterVpcPrivateSubnet1SubnetF327BA6F",
+        },
+      },
+      "Type": "AWS::EC2::SubnetRouteTableAssociation",
+    },
+    "FoldingAtHomeClusterVpcPrivateSubnet1SubnetF327BA6F": Object {
+      "Properties": Object {
+        "AvailabilityZone": Object {
+          "Fn::Select": Array [
+            0,
+            Object {
+              "Fn::GetAZs": "",
+            },
+          ],
+        },
+        "CidrBlock": "10.0.128.0/18",
+        "MapPublicIpOnLaunch": false,
+        "Tags": Array [
+          Object {
+            "Key": "aws-cdk:subnet-name",
+            "Value": "Private",
+          },
+          Object {
+            "Key": "aws-cdk:subnet-type",
+            "Value": "Private",
+          },
+          Object {
+            "Key": "Name",
+            "Value": "Default/FoldingAtHome/Cluster/Vpc/PrivateSubnet1",
+          },
+        ],
+        "VpcId": Object {
+          "Ref": "FoldingAtHomeClusterVpcE7283F0C",
+        },
+      },
+      "Type": "AWS::EC2::Subnet",
+    },
+    "FoldingAtHomeClusterVpcPrivateSubnet2DefaultRoute51EB715A": Object {
+      "Properties": Object {
+        "DestinationCidrBlock": "0.0.0.0/0",
+        "NatGatewayId": Object {
+          "Ref": "FoldingAtHomeClusterVpcPublicSubnet2NATGateway37ECF2E6",
+        },
+        "RouteTableId": Object {
+          "Ref": "FoldingAtHomeClusterVpcPrivateSubnet2RouteTable20CDBFCF",
+        },
+      },
+      "Type": "AWS::EC2::Route",
+    },
+    "FoldingAtHomeClusterVpcPrivateSubnet2RouteTable20CDBFCF": Object {
+      "Properties": Object {
+        "Tags": Array [
+          Object {
+            "Key": "Name",
+            "Value": "Default/FoldingAtHome/Cluster/Vpc/PrivateSubnet2",
+          },
+        ],
+        "VpcId": Object {
+          "Ref": "FoldingAtHomeClusterVpcE7283F0C",
+        },
+      },
+      "Type": "AWS::EC2::RouteTable",
+    },
+    "FoldingAtHomeClusterVpcPrivateSubnet2RouteTableAssociationAAD9B2DF": Object {
+      "Properties": Object {
+        "RouteTableId": Object {
+          "Ref": "FoldingAtHomeClusterVpcPrivateSubnet2RouteTable20CDBFCF",
+        },
+        "SubnetId": Object {
+          "Ref": "FoldingAtHomeClusterVpcPrivateSubnet2Subnet3E05E323",
+        },
+      },
+      "Type": "AWS::EC2::SubnetRouteTableAssociation",
+    },
+    "FoldingAtHomeClusterVpcPrivateSubnet2Subnet3E05E323": Object {
+      "Properties": Object {
+        "AvailabilityZone": Object {
+          "Fn::Select": Array [
+            1,
+            Object {
+              "Fn::GetAZs": "",
+            },
+          ],
+        },
+        "CidrBlock": "10.0.192.0/18",
+        "MapPublicIpOnLaunch": false,
+        "Tags": Array [
+          Object {
+            "Key": "aws-cdk:subnet-name",
+            "Value": "Private",
+          },
+          Object {
+            "Key": "aws-cdk:subnet-type",
+            "Value": "Private",
+          },
+          Object {
+            "Key": "Name",
+            "Value": "Default/FoldingAtHome/Cluster/Vpc/PrivateSubnet2",
+          },
+        ],
+        "VpcId": Object {
+          "Ref": "FoldingAtHomeClusterVpcE7283F0C",
+        },
+      },
+      "Type": "AWS::EC2::Subnet",
+    },
+    "FoldingAtHomeClusterVpcPublicSubnet1DefaultRouteCF92A758": Object {
+      "DependsOn": Array [
+        "FoldingAtHomeClusterVpcVPCGW946B0001",
+      ],
+      "Properties": Object {
+        "DestinationCidrBlock": "0.0.0.0/0",
+        "GatewayId": Object {
+          "Ref": "FoldingAtHomeClusterVpcIGWAB3113DB",
+        },
+        "RouteTableId": Object {
+          "Ref": "FoldingAtHomeClusterVpcPublicSubnet1RouteTableDC16A682",
+        },
+      },
+      "Type": "AWS::EC2::Route",
+    },
+    "FoldingAtHomeClusterVpcPublicSubnet1EIPA486D5E6": Object {
+      "Properties": Object {
+        "Domain": "vpc",
+        "Tags": Array [
+          Object {
+            "Key": "Name",
+            "Value": "Default/FoldingAtHome/Cluster/Vpc/PublicSubnet1",
+          },
+        ],
+      },
+      "Type": "AWS::EC2::EIP",
+    },
+    "FoldingAtHomeClusterVpcPublicSubnet1NATGateway4D45814C": Object {
+      "Properties": Object {
+        "AllocationId": Object {
+          "Fn::GetAtt": Array [
+            "FoldingAtHomeClusterVpcPublicSubnet1EIPA486D5E6",
+            "AllocationId",
+          ],
+        },
+        "SubnetId": Object {
+          "Ref": "FoldingAtHomeClusterVpcPublicSubnet1Subnet7B9537F5",
+        },
+        "Tags": Array [
+          Object {
+            "Key": "Name",
+            "Value": "Default/FoldingAtHome/Cluster/Vpc/PublicSubnet1",
+          },
+        ],
+      },
+      "Type": "AWS::EC2::NatGateway",
+    },
+    "FoldingAtHomeClusterVpcPublicSubnet1RouteTableAssociation44209F30": Object {
+      "Properties": Object {
+        "RouteTableId": Object {
+          "Ref": "FoldingAtHomeClusterVpcPublicSubnet1RouteTableDC16A682",
+        },
+        "SubnetId": Object {
+          "Ref": "FoldingAtHomeClusterVpcPublicSubnet1Subnet7B9537F5",
+        },
+      },
+      "Type": "AWS::EC2::SubnetRouteTableAssociation",
+    },
+    "FoldingAtHomeClusterVpcPublicSubnet1RouteTableDC16A682": Object {
+      "Properties": Object {
+        "Tags": Array [
+          Object {
+            "Key": "Name",
+            "Value": "Default/FoldingAtHome/Cluster/Vpc/PublicSubnet1",
+          },
+        ],
+        "VpcId": Object {
+          "Ref": "FoldingAtHomeClusterVpcE7283F0C",
+        },
+      },
+      "Type": "AWS::EC2::RouteTable",
+    },
+    "FoldingAtHomeClusterVpcPublicSubnet1Subnet7B9537F5": Object {
+      "Properties": Object {
+        "AvailabilityZone": Object {
+          "Fn::Select": Array [
+            0,
+            Object {
+              "Fn::GetAZs": "",
+            },
+          ],
+        },
+        "CidrBlock": "10.0.0.0/18",
+        "MapPublicIpOnLaunch": true,
+        "Tags": Array [
+          Object {
+            "Key": "aws-cdk:subnet-name",
+            "Value": "Public",
+          },
+          Object {
+            "Key": "aws-cdk:subnet-type",
+            "Value": "Public",
+          },
+          Object {
+            "Key": "Name",
+            "Value": "Default/FoldingAtHome/Cluster/Vpc/PublicSubnet1",
+          },
+        ],
+        "VpcId": Object {
+          "Ref": "FoldingAtHomeClusterVpcE7283F0C",
+        },
+      },
+      "Type": "AWS::EC2::Subnet",
+    },
+    "FoldingAtHomeClusterVpcPublicSubnet2DefaultRouteB6C30F30": Object {
+      "DependsOn": Array [
+        "FoldingAtHomeClusterVpcVPCGW946B0001",
+      ],
+      "Properties": Object {
+        "DestinationCidrBlock": "0.0.0.0/0",
+        "GatewayId": Object {
+          "Ref": "FoldingAtHomeClusterVpcIGWAB3113DB",
+        },
+        "RouteTableId": Object {
+          "Ref": "FoldingAtHomeClusterVpcPublicSubnet2RouteTable677B4AF4",
+        },
+      },
+      "Type": "AWS::EC2::Route",
+    },
+    "FoldingAtHomeClusterVpcPublicSubnet2EIPBCB7089A": Object {
+      "Properties": Object {
+        "Domain": "vpc",
+        "Tags": Array [
+          Object {
+            "Key": "Name",
+            "Value": "Default/FoldingAtHome/Cluster/Vpc/PublicSubnet2",
+          },
+        ],
+      },
+      "Type": "AWS::EC2::EIP",
+    },
+    "FoldingAtHomeClusterVpcPublicSubnet2NATGateway37ECF2E6": Object {
+      "Properties": Object {
+        "AllocationId": Object {
+          "Fn::GetAtt": Array [
+            "FoldingAtHomeClusterVpcPublicSubnet2EIPBCB7089A",
+            "AllocationId",
+          ],
+        },
+        "SubnetId": Object {
+          "Ref": "FoldingAtHomeClusterVpcPublicSubnet2Subnet440FEBD5",
+        },
+        "Tags": Array [
+          Object {
+            "Key": "Name",
+            "Value": "Default/FoldingAtHome/Cluster/Vpc/PublicSubnet2",
+          },
+        ],
+      },
+      "Type": "AWS::EC2::NatGateway",
+    },
+    "FoldingAtHomeClusterVpcPublicSubnet2RouteTable677B4AF4": Object {
+      "Properties": Object {
+        "Tags": Array [
+          Object {
+            "Key": "Name",
+            "Value": "Default/FoldingAtHome/Cluster/Vpc/PublicSubnet2",
+          },
+        ],
+        "VpcId": Object {
+          "Ref": "FoldingAtHomeClusterVpcE7283F0C",
+        },
+      },
+      "Type": "AWS::EC2::RouteTable",
+    },
+    "FoldingAtHomeClusterVpcPublicSubnet2RouteTableAssociationEE6C623D": Object {
+      "Properties": Object {
+        "RouteTableId": Object {
+          "Ref": "FoldingAtHomeClusterVpcPublicSubnet2RouteTable677B4AF4",
+        },
+        "SubnetId": Object {
+          "Ref": "FoldingAtHomeClusterVpcPublicSubnet2Subnet440FEBD5",
+        },
+      },
+      "Type": "AWS::EC2::SubnetRouteTableAssociation",
+    },
+    "FoldingAtHomeClusterVpcPublicSubnet2Subnet440FEBD5": Object {
+      "Properties": Object {
+        "AvailabilityZone": Object {
+          "Fn::Select": Array [
+            1,
+            Object {
+              "Fn::GetAZs": "",
+            },
+          ],
+        },
+        "CidrBlock": "10.0.64.0/18",
+        "MapPublicIpOnLaunch": true,
+        "Tags": Array [
+          Object {
+            "Key": "aws-cdk:subnet-name",
+            "Value": "Public",
+          },
+          Object {
+            "Key": "aws-cdk:subnet-type",
+            "Value": "Public",
+          },
+          Object {
+            "Key": "Name",
+            "Value": "Default/FoldingAtHome/Cluster/Vpc/PublicSubnet2",
+          },
+        ],
+        "VpcId": Object {
+          "Ref": "FoldingAtHomeClusterVpcE7283F0C",
+        },
+      },
+      "Type": "AWS::EC2::Subnet",
+    },
+    "FoldingAtHomeClusterVpcVPCGW946B0001": Object {
+      "Properties": Object {
+        "InternetGatewayId": Object {
+          "Ref": "FoldingAtHomeClusterVpcIGWAB3113DB",
+        },
+        "VpcId": Object {
+          "Ref": "FoldingAtHomeClusterVpcE7283F0C",
+        },
+      },
+      "Type": "AWS::EC2::VPCGatewayAttachment",
+    },
+    "FoldingAtHomeService489B8E3D": Object {
+      "Properties": Object {
+        "Cluster": Object {
+          "Ref": "FoldingAtHomeCluster207DC970",
+        },
+        "DeploymentConfiguration": Object {
+          "MaximumPercent": 100,
+          "MinimumHealthyPercent": 0,
+        },
+        "EnableECSManagedTags": false,
+        "LaunchType": "EC2",
+        "SchedulingStrategy": "DAEMON",
+        "TaskDefinition": Object {
+          "Ref": "FoldingAtHomeTaskEE1BE7EB",
+        },
+      },
+      "Type": "AWS::ECS::Service",
+    },
+    "FoldingAtHomeTaskEE1BE7EB": Object {
+      "Properties": Object {
+        "ContainerDefinitions": Array [
+          Object {
+            "Essential": true,
+            "Image": "raykrueger/folding-at-home",
+            "LogConfiguration": Object {
+              "LogDriver": "awslogs",
+              "Options": Object {
+                "awslogs-group": Object {
+                  "Ref": "FoldingAtHomemainLogGroup93ED62D3",
+                },
+                "awslogs-region": Object {
+                  "Ref": "AWS::Region",
+                },
+                "awslogs-stream-prefix": "folding",
+              },
+            },
+            "Memory": 11444,
+            "Name": "main",
+            "ResourceRequirements": Array [
+              Object {
+                "Type": "GPU",
+                "Value": "1",
+              },
+            ],
+          },
+        ],
+        "ExecutionRoleArn": Object {
+          "Fn::GetAtt": Array [
+            "FoldingAtHomeTaskExecutionRoleD2DB6998",
+            "Arn",
+          ],
+        },
+        "Family": "FoldingAtHomeTask49A1F66E",
+        "NetworkMode": "bridge",
+        "RequiresCompatibilities": Array [
+          "EC2",
+        ],
+        "TaskRoleArn": Object {
+          "Fn::GetAtt": Array [
+            "FoldingAtHomeTaskTaskRole34688300",
+            "Arn",
+          ],
+        },
+      },
+      "Type": "AWS::ECS::TaskDefinition",
+    },
+    "FoldingAtHomeTaskExecutionRoleD2DB6998": Object {
+      "Properties": Object {
+        "AssumeRolePolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": Object {
+                "Service": "ecs-tasks.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "FoldingAtHomeTaskExecutionRoleDefaultPolicyD5534137": Object {
+      "Properties": Object {
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": Array [
+                "logs:CreateLogStream",
+                "logs:PutLogEvents",
+              ],
+              "Effect": "Allow",
+              "Resource": Object {
+                "Fn::GetAtt": Array [
+                  "FoldingAtHomemainLogGroup93ED62D3",
+                  "Arn",
+                ],
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "FoldingAtHomeTaskExecutionRoleDefaultPolicyD5534137",
+        "Roles": Array [
+          Object {
+            "Ref": "FoldingAtHomeTaskExecutionRoleD2DB6998",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "FoldingAtHomeTaskTaskRole34688300": Object {
+      "Properties": Object {
+        "AssumeRolePolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": Object {
+                "Service": "ecs-tasks.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "FoldingAtHomemainLogGroup93ED62D3": Object {
+      "DeletionPolicy": "Retain",
+      "Properties": Object {
+        "RetentionInDays": 7,
+      },
+      "Type": "AWS::Logs::LogGroup",
+      "UpdateReplacePolicy": "Retain",
+    },
+  },
+}
+`;
