@@ -12,7 +12,7 @@ export interface FoldingAtHomeProps {
 
   /**
    * How many host instances should we launch?
-   * @default 3
+   * @default 1
    */
   clusterSize?: number;
 
@@ -42,15 +42,14 @@ export interface FoldingAtHomeProps {
 }
 
 /**
- * Builds an 3 node ECS Cluster of g4dn.xlarge Spot instances to run the Folding
+ * Builds an ECS Cluster of g4dn.xlarge Spot instances to run the Folding
  * at Home container on, and the VPC to support. The default VPC can be
  * overridden by passing a VPC instance into the FoldingAtHomeProps.
  */
 export class FoldingAtHome extends Construct {
 
   // Declare our defaults
-  public static readonly DEFAULT_MAX_AZS = 3;
-  public static readonly DEFAULT_CLUSTER_SIZE = 3;
+  public static readonly DEFAULT_CLUSTER_SIZE = 1;
   public static readonly DEFAULT_SPOT_PRICE = '0.52';
   public static readonly DEFAULT_IMAGE = 'raykrueger/folding-at-home';
   public static readonly DEFAULT_STREAM_PREFIX = 'folding';
@@ -63,7 +62,7 @@ export class FoldingAtHome extends Construct {
   public constructor(scope: Construct, id: string, props: FoldingAtHomeProps={}) {
     super(scope, id);
 
-    //File in the defaults
+    //Fill in the defaults
     props.streamPrefix = props.streamPrefix || FoldingAtHome.DEFAULT_STREAM_PREFIX;
     props.clusterSize = props.clusterSize || FoldingAtHome.DEFAULT_CLUSTER_SIZE;
     props.spotPrice = props.spotPrice || FoldingAtHome.DEFAULT_SPOT_PRICE;
@@ -87,11 +86,11 @@ export class FoldingAtHome extends Construct {
       compatibility: ecs.Compatibility.EC2
     });
 
-    //The container def, I only allow half of the ram
+    //The container definition, we allow 'almost' all the memory`
     this.containerDef = new ecs.ContainerDefinition(this, 'main', {
       image: props.image,
       taskDefinition: this.taskDef,
-      memoryLimitMiB: 8192,
+      memoryLimitMiB: 11444,
       gpuCount: 1,
       logging: ecs.LogDriver.awsLogs({
         streamPrefix: props.streamPrefix, logRetention: logs.RetentionDays.ONE_WEEK
